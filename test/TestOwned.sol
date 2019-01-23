@@ -3,6 +3,7 @@ pragma solidity ^0.5.0;
 import "truffle/Assert.sol";
 import "truffle/DeployedAddresses.sol";
 import "../contracts/Owned.sol";
+import "./ThrowProxy.sol";
 
 contract OwnedExample is Owned {
 
@@ -32,20 +33,20 @@ contract TestOwned {
     function testOnlyOwner_NotOwner_Throw() public {
         OwnedExample test = new OwnedExample();
 
-        address newOwner = address(10);
-        test.setOwner(newOwner);
-
-        bytes memory payload = abi.encodeWithSignature("OnlyOwnerShouldAccessThis()");
-        (bool result,) = address(test).call(payload);
-
+        ThrowProxy throwProxy = new ThrowProxy(address(test));
+        OwnedExample(address(throwProxy)).OnlyOwnerShouldAccessThis();        
+        bool result = throwProxy.execute();
+        
         Assert.equal(result, false, "Only owner was supposed to be able to call that function");
     }
 
     function testOnlyOwner_Owner_Success() public {
         OwnedExample test = new OwnedExample();
 
-        bytes memory payload = abi.encodeWithSignature("OnlyOwnerShouldAccessThis()");
-        (bool result,) = address(test).call(payload);
+        ThrowProxy throwProxy = new ThrowProxy(address(test));
+        OwnedExample(address(throwProxy)).OnlyOwnerShouldAccessThis();
+        test.setOwner(address(throwProxy));
+        bool result = throwProxy.execute();
 
         Assert.equal(result, true, "Only owner should pass");
     }
