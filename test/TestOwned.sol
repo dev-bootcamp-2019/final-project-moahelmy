@@ -7,13 +7,15 @@ import "./ThrowProxy.sol";
 
 contract OwnedExample is Owned {
 
-    function setOwner(address newOwner) public
+    function setOwner(address newOwner) 
+        public
     {
         owner = newOwner;
     }
 
-    function OnlyOwnerShouldAccessThis() public
-        onlyOwner()
+    function onlyOwnerShouldAccessThis() 
+    public
+        onlyOwner
     {
     }
 }
@@ -21,7 +23,9 @@ contract OwnedExample is Owned {
 contract TestOwned {
 
 
-    function testOwnedConstructor() public {
+    function testOwnedConstructor() 
+        public 
+    {
         Owned owned = new Owned();
 
         address owner = owned.owner();
@@ -30,21 +34,25 @@ contract TestOwned {
         Assert.equal(isCorrect, true, "Owner should be the contract deployer");
     }
 
-    function testOnlyOwner_NotOwner_Throw() public {
+    function testOnlyOwner_NotOwner_Throw() 
+        public 
+    {
         OwnedExample test = new OwnedExample();
 
         ThrowProxy throwProxy = new ThrowProxy(address(test));
-        OwnedExample(address(throwProxy)).OnlyOwnerShouldAccessThis();        
+        OwnedExample(address(throwProxy)).onlyOwnerShouldAccessThis();        
         bool result = throwProxy.execute();
         
         Assert.equal(result, false, "Only owner was supposed to be able to call that function");
     }
 
-    function testOnlyOwner_Owner_Success() public {
+    function testOnlyOwner_Owner_Success() 
+        public
+    {
         OwnedExample test = new OwnedExample();
 
         ThrowProxy throwProxy = new ThrowProxy(address(test));
-        OwnedExample(address(throwProxy)).OnlyOwnerShouldAccessThis();
+        OwnedExample(address(throwProxy)).onlyOwnerShouldAccessThis();
         test.setOwner(address(throwProxy));
         bool result = throwProxy.execute();
 
