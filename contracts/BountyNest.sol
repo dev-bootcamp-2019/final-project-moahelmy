@@ -70,8 +70,9 @@ contract BountyNest is Admin, SimpleBank
     /**
         modifier to confirm that the caller is bounty poster
      */
-    modifier isBountyPoster(uint bountyId)
+    modifier onlyPoster(uint bountyId)
     {
+        require(bountyList[bountyId].poster == msg.sender, "not poster");
         _;
     }
     /**
@@ -86,6 +87,7 @@ contract BountyNest is Admin, SimpleBank
      */
     modifier opened(uint bountyId)
     {
+        require(bountyList[bountyId].state == BountyState.Open, "bounty is not open");
         _;
     }
     /**
@@ -101,6 +103,7 @@ contract BountyNest is Admin, SimpleBank
         bountiesCount = 0;
         submissionsCount = 0;
         
+        // enroll contract itself into the simple bank to hold deposit sent by job posters
         enroll(address(this));
     }
 
@@ -136,9 +139,13 @@ contract BountyNest is Admin, SimpleBank
      */
     function closeBounty(uint bountyId)
         public
+        onlyPoster(bountyId)
+        opened(bountyId)
         returns(bool)
-    {
-
+    {   
+        bountyList[bountyId].state = BountyState.Closed;
+        emit Closed(bountyId);
+        return true;
     }
 
     /**
@@ -155,7 +162,7 @@ contract BountyNest is Admin, SimpleBank
 
     /**
         Accept submission by bounty poster
-        @param submissionId
+        @param submissionId id of submission to be accepted
      */
     function accept(uint submissionId)
         public        
@@ -164,7 +171,7 @@ contract BountyNest is Admin, SimpleBank
 
     /**
         Reject submission by bounty poster
-        @param submissionId
+        @param submissionId id of submission to be rejected
      */
     function reject(uint submissionId)
         public
