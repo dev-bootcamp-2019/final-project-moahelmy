@@ -103,7 +103,7 @@ contract BountyNest is Admin, SimpleBank
      */
     modifier submissionExists(uint id)
     {
-        require(bountyList[id].id == id, "not exists");
+        require(submissions[id].id == id, "not exists");
         _;
     }
     /**
@@ -181,20 +181,26 @@ contract BountyNest is Admin, SimpleBank
 
     /**
         Add new submission to existing bounty
-        @param bountyId id of related bounty
+        @param _bountyId id of related bounty
         @param resolution submission itself
         @return the id of the created submission
      */
-    function submitResolution(uint bountyId, string memory resolution)
+    function submitResolution(uint _bountyId, string memory resolution)
         public
         validSender()
-        opened(bountyId)    
+        opened(_bountyId)
         returns(uint submissionId)
     {
         submissionId = ++submissionsCount;
-        // Submissions[submissionId] = Submission({
-        //     id: submissionId
-        // });
+        submissions[submissionId] = Submission({
+            id: submissionId,
+            bountyId: _bountyId,
+            resolution: resolution,
+            submitter: msg.sender,
+            state: SubmissionState.Pending
+        });
+        mySubmissions[msg.sender].push(submissionId);
+        emit SubmissionAdded(_bountyId, submissionId);
     }
 
     /**
@@ -202,8 +208,16 @@ contract BountyNest is Admin, SimpleBank
         @param submissionId id of submission to be accepted
      */
     function accept(uint submissionId)
-        public        
+        public
+        submissionExists(submissionId)
+        pending(submissionId)
+        onlyPoster(submissions[submissionId].bountyId)
+        opened(submissions[submissionId].bountyId)
     {
+        submissions[submissionId].state = SubmissionState.Accepted;
+        bountyList[submissions[submissionId].bountyId].state = BountyState.Resolved;
+        // handle payment
+        emit SubmissionAccepted(submissionId, submissions[submissionId].bountyId);
     }
 
     /**
@@ -212,7 +226,13 @@ contract BountyNest is Admin, SimpleBank
      */
     function reject(uint submissionId)
         public
+        submissionExists(submissionId)
+        pending(submissionId)
+        onlyPoster(submissions[submissionId].bountyId)
+        opened(submissions[submissionId].bountyId)
     {
+        submissions[submissionId].state = SubmissionState.Rejected;
+        emit SubmissionRejected(submissionId, submissions[submissionId].bountyId);
     }
 
     /**
@@ -233,9 +253,10 @@ contract BountyNest is Admin, SimpleBank
     function listMySubmissions()
         public
         view
+        validSender()        
         returns(uint[] memory bounties)
     {
-
+        return mySubmissions[msg.sender];
     }
 
     /**
@@ -301,4 +322,31 @@ contract BountyNest is Admin, SimpleBank
     {
         return bountyList[bountyId].state == BountyState.Resolved;
     }
+
+    function isPending(uint submissionId)
+        public
+        view
+        submissionExists(submissionId)
+        returns(bool)
+    {
+        return submissions[submissionId].state == SubmissionState.Pending;
+    }
+
+    function isAccepted(uint submissionId)
+        public
+        view
+        submissionExists(submissionId)
+        returns(bool)
+    {
+        return submissions[submissionId].state == SubmissionState.Accepted;
+    }
+
+    function isRejected(uint submissionId)
+        public
+        view
+        submissionExists(submissionId)
+        returns(bool)
+    {
+        return submissions[submissionId].state == SubmissionState.Rejected;
+    }    
 }
