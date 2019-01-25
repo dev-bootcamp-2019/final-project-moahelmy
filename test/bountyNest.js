@@ -3,6 +3,7 @@ var assertThrow = require("./assertExceptions");
 
 /**
  * Tests for bounties nest contract
+ * Tests run by this order which crucial for their passing
  */
 contract('BountyNest', function (accounts) {
     const owner = accounts[0];
@@ -25,7 +26,9 @@ contract('BountyNest', function (accounts) {
 
         var eventEmitted = false;
         var loggedBountyId;
+        // add bounty
         var result = await bountyNest.addBountry("to be resovled", 120, { from: jobPoster, value: 150 });
+        // check for event
         if(result && result.logs && result.logs[0].event)
         {
             loggedBountyId = result.logs[0].args.bountyId;
@@ -34,25 +37,30 @@ contract('BountyNest', function (accounts) {
         }        
         assert.equal(eventEmitted, true, 'event should have been emitted');
 
+        // check if added bounty is open
         const isOpen = await bountyNest.isOpen.call(loggedBountyId);
-
         assert.equal(isOpen, true, 'new bounty should be open');
 
+        // add another bounty to be used in test scanrios after making sure adding new bounty works
         var toBeClosed = await bountyNest.addBountry("to be closed", 120, { from: jobPoster, value: 150 });
         bountyToBeClosed = toBeClosed.logs[0].args.bountyId;
     });
 
-    it('should not add new bounty with zero reward or value less than reward', async () => {
+    it('should revert adding new bounty with zero reward or value less than reward', async () => {
         const bountyNest = await BountyNest.deployed();
                 
+        // reward is zero
         await assertThrow.expectRevert(bountyNest.addBountry("should fail", 0, { from: jobPoster, value: 100 }));
 
+        // value < reward
         await assertThrow.expectRevert(bountyNest.addBountry("should fail", 100, { from: jobPoster, value: 50 }));
     });
 
     it('only bounty poster can close it', async () => {
-        const bountyNest = await BountyNest.deployed();        
-        await assertThrow.expectRevert(bountyNest.closeBounty(bountyToBeClosed, { from: owner }));
+        const bountyNest = await BountyNest.deployed();     
+        
+        const stillOpen = bountyToBeClosed;
+        await assertThrow.expectRevert(bountyNest.closeBounty(stillOpen, { from: owner }));
     });
 
     it('should close open bounty if poster', async () => {
@@ -60,7 +68,10 @@ contract('BountyNest', function (accounts) {
 
         var eventEmitted = false;
         var loggedBountyId;
-        var result = await bountyNest.closeBounty(bountyToBeClosed, { from: jobPoster });
+        // close bounty
+        const stillOpen = bountyToBeClosed;
+        var result = await bountyNest.closeBounty(stillOpen, { from: jobPoster });
+        //  check for event
         if(result && result.logs[0] && result.logs[0].event)
         {
             loggedBountyId = result.logs[0].args.bountyId;            
@@ -68,7 +79,7 @@ contract('BountyNest', function (accounts) {
         }        
 
         assert.equal(eventEmitted, true, 'event should have been emitted');
-
+        // check if bounty is closed
         const isClosed = await bountyNest.isClosed.call(loggedBountyId);
         assert.equal(isClosed, true, 'bounty should be closed');
     });
@@ -76,7 +87,8 @@ contract('BountyNest', function (accounts) {
     it('only open bounty can be closed', async () => {
         const bountyNest = await BountyNest.deployed();
 
-        await assertThrow.expectRevert(bountyNest.closeBounty(bountyToBeClosed, { from: jobPoster }));
+        const nowClosed = bountyToBeClosed;
+        await assertThrow.expectRevert(bountyNest.closeBounty(nowClosed, { from: jobPoster }));
     });    
 
     it('should submit successfully', async () => {
@@ -84,7 +96,9 @@ contract('BountyNest', function (accounts) {
 
         var eventEmitted = false;
         var loggedSubmissionId;
+        // submit to one of the added bounties
         var result = await bountyNest.submitResolution(bountyToBeResolved, "to be accepted", { from: bountyHunter });
+        // check for event
         if(result.logs[0] && result.logs[0].event)
         {
             loggedSubmissionId = result.logs[0].args.submissionId;
@@ -94,9 +108,11 @@ contract('BountyNest', function (accounts) {
 
         assert.equal(eventEmitted, true, 'event should have been emitted');
 
+        // confirm that submission is pending approval
         var isPending = bountyNest.isPending.call(loggedSubmissionId);
         assert.equal(isPending, true, 'submission should be pending');
 
+        // add another submission to be used in test scanrios after making sure adding new submission works
         var toBeRejected = await bountyNest.submitResolution(bountyToBeResolved, "to be rejected", { from: bountyHunter });;
         submissionToBeRejected = toBeRejected.logs[0].args.submissionId;
     });
