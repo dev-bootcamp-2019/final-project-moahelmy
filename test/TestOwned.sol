@@ -5,6 +5,9 @@ import "truffle/DeployedAddresses.sol";
 import "../contracts/Owned.sol";
 import "./ThrowProxy.sol";
 
+/**
+    Created to allow injecting owner and test modifier
+ */
 contract OwnedExample is Owned {
 
     function setOwner(address newOwner) 
@@ -20,10 +23,14 @@ contract OwnedExample is Owned {
     }
 }
 
+/**
+    test methods named as
+    <method_under_test>_<scenario>_<outcome>
+ */
 contract TestOwned {
 
 
-    function testOwnedConstructor() 
+    function testOwnedConstructor_DeployedRecordedAsOwner() 
         public 
     {
         Owned owned = new Owned();

@@ -11,14 +11,17 @@ contract('Admin', function (accounts) {
         const admin = await Admin.deployed();
 
         var eventEmitted = false;
+        // add admin
         var result = await admin.addAdmin(administrator, { from: owner });
         var loggedAdmin;
-        if(result.logs[0].event)
+        // check for events
+        if(result.logs[0] && result.logs[0].event)
         {
             loggedAdmin = result.logs[0].args.admin;
             eventEmitted = true;
         }
 
+        // test user
         const isAdmin = await admin.isAdmin.call(administrator);
  
         assert.equal(eventEmitted, true, 'adding an admin should emit admin added event');
@@ -28,11 +31,11 @@ contract('Admin', function (accounts) {
 
     it('should not allow adding admins twice', async () => {
         const admin = await Admin.deployed();
-
+        
         await assertThrow.expectRevert(admin.addAdmin(administrator, { from: owner }));
     });
 
-    it('should not allow adding admins using guest', async () => {
+    it('only admin can add new admins', async () => {
         const admin = await Admin.deployed();
 
         await assertThrow.expectRevert(admin.addAdmin(guest, { from: guest }));
@@ -41,13 +44,13 @@ contract('Admin', function (accounts) {
         assert.equal(isAdmin, false, "should not be marked as admin");
     });
 
-    it('should not allow removing guests', async () => {
+    it('can not remove non-admin', async () => {
         const admin = await Admin.deployed();
 
         await assertThrow.expectRevert(admin.removeAdmin(guest, { from: owner }));
     });
 
-    it('should allow owner only to remove admins', async () => {
+    it('only owner can remove admins', async () => {
         const admin = await Admin.deployed();
                 
         await admin.addAdmin(user, { from: administrator });

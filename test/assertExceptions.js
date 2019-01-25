@@ -1,3 +1,7 @@
+/**
+ * Used to catch errors returned by ETH VM
+ */
+
 const PREFIX = "Returned error: VM Exception while processing transaction: ";
 
 async function shouldThrow(promise, message) {

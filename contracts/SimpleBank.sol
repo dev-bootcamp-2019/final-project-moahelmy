@@ -1,7 +1,6 @@
 /*
-    This exercise has been updated to use Solidity version 0.5
-    Breaking changes from 0.4 to 0.5 can be found here: 
-    https://solidity.readthedocs.io/en/v0.5.0/050-breaking-changes.html
+    Simple Bank copied from excercise to manage balance and apply withrawal pattern
+    A new method to transfer balance will be added
 */
 
 pragma solidity ^0.5.0;
@@ -59,10 +58,17 @@ contract SimpleBank {
     /// @return The users enrolled status
     // Emit the appropriate event
     function enroll() public returns (bool){        
-        if(!enrolled[msg.sender]) {
-            enrolled[msg.sender] = true;
-            balances[msg.sender] = 0;
-            emit LogEnrolled(msg.sender);
+        return enroll(msg.sender);
+    }
+
+    function enroll(address _newMember)
+        internal
+        returns(bool)
+    {
+        if(!enrolled[_newMember]) {
+            enrolled[_newMember] = true;
+            balances[_newMember] = 0;
+            emit LogEnrolled(_newMember);
             return true;
         }
         return false;
@@ -76,7 +82,7 @@ contract SimpleBank {
     function deposit() public payable returns (uint) {
         /* Add the amount to the user's balance, call the event associated with a deposit,
           then return the balance of the user */
-        require(enrolled[msg.sender], "user not entrolled");
+        require(enrolled[msg.sender], "user not enrolled");
         require(msg.value > 0, "amount must be positive");
         uint newBalance = msg.value + balances[msg.sender];
         require(newBalance > 0, "integer overflow");

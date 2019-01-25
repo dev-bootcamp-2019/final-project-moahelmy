@@ -1,6 +1,9 @@
 var BountyNest = artifacts.require("BountyNest.sol");
 var assertThrow = require("./assertExceptions");
 
+/**
+ * Tests for bounties nest contract
+ */
 contract('BountyNest', function (accounts) {
     const owner = accounts[0];
     const jobPoster = accounts[1]; 
