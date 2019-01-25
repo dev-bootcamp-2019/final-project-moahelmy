@@ -1,6 +1,6 @@
 /*
     Simple Bank copied from excercise to manage balance and apply withrawal pattern
-    A new method to transfer balance will be added
+    A new method to transfer balance will be added    
 */
 
 pragma solidity ^0.5.0;
@@ -34,6 +34,9 @@ contract SimpleBank {
     /* Add 3 arguments for this event, an accountAddress, withdrawAmount and a newBalance */
     event LogWithdrawal(address indexed accountAddress, uint indexed withdrawAmount, uint indexed newBalance);
 
+    /* transfer money from account to another */
+    event LogTransferDone(address indexed from, address indexed to, uint amount, uint fromBalance, uint toBalance);
+
     //
     // Functions
     //
@@ -61,6 +64,9 @@ contract SimpleBank {
         return enroll(msg.sender);
     }
 
+    /// @notice Enroll a customer with the bank (address passed)
+    /// @return The users enrolled status
+    // Emit the appropriate event
     function enroll(address _newMember)
         internal
         returns(bool)
@@ -72,6 +78,22 @@ contract SimpleBank {
             return true;
         }
         return false;
+    }
+
+    /// @notice transfer from account to another    
+    /// @param from from account
+    /// @param to to account    
+    function transfer(address from, address to, uint amount)
+        public
+    {
+        require(enrolled[from], "from not enrolled");
+        require(enrolled[to], "to not enrolled");
+        uint fromNewBalance = amount - balances[from];
+        require(fromNewBalance >= 0, "insufficient balance");
+        uint toNewBalance = amount + balances[to];
+        require(toNewBalance > 0, "integer overflow");        
+        balances[to] = toNewBalance;
+        emit LogTransferDone(from, to, amount, fromNewBalance, toNewBalance);        
     }
 
     /// @notice Deposit ether into bank

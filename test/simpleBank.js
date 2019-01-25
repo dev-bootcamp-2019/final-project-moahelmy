@@ -14,6 +14,7 @@ contract('SimpleBank', function(accounts) {
   const owner = accounts[0]
   const alice = accounts[1];
   const bob = accounts[2];
+  const peter = accounts[3];
   const deposit = web3.utils.toBN(2);
 
   it("mark addresses as enrolled", async () => {
@@ -46,6 +47,22 @@ contract('SimpleBank', function(accounts) {
 
     assert.equal(expectedEventResult.accountAddress, logAccountAddress, "LogDepositMade event accountAddress property not emitted, check deposit method");
     assert.equal(expectedEventResult.amount, logDepositAmount, "LogDepositMade event amount property not emitted, check deposit method");
+  });
+
+  it("should transfer correct amount", async () => {
+    const bank = await SimpleBank.deployed();
+
+    await bank.enroll({from: peter});
+    await bank.enroll({from: bob});
+
+    const transferAmount = 100;
+    await bank.deposit({from: peter, value: transferAmount});
+    const balance = await bank.balance({from: bob});
+    result = await bank.transfer(peter, bob, transferAmount, { from: peter });
+
+    const bobNewBalance = await bank.balance({from: bob});
+    
+    assert.equal(bobNewBalance.toNumber(), balance.toNumber() + transferAmount, "transfer is incorrect");
   });
 
   it("should withdraw correct amount", async () => {

@@ -13,9 +13,7 @@ contract BountyNest is Admin, SimpleBank
     */    
     uint public bountiesCount;
     /// actuall list of bounties that will be looked up
-    mapping(uint => Bounty) public bountyList;
-    /// contains submission for specific bounty
-    mapping(uint => uint) public bountySubmissions;
+    mapping(uint => Bounty) public bountyList;        
     /// contains bouties grouped by poster
     mapping(address => uint[]) myBounties;
 
@@ -29,7 +27,7 @@ contract BountyNest is Admin, SimpleBank
     mapping(address => uint[]) mySubmissions;    
 
     /// enum to track state of bounty
-    enum BountyState { Open, Resolved, Closed }
+    enum BountyState { Open, Closed, Resolved }
 
     struct Bounty
     {
@@ -38,8 +36,8 @@ contract BountyNest is Admin, SimpleBank
         address poster;
         uint reward;
         BountyState state;
-        //uint[] submissions;
-        uint acceptedSubmission;
+        uint accepted;
+        uint[] submissions;
     }
 
     /// enum to track state of submission
@@ -122,7 +120,7 @@ contract BountyNest is Admin, SimpleBank
     {
         require(msg.sender != address(0), "not valid sender");
         _;
-    }
+    }    
 
     constructor() public
     {
@@ -134,18 +132,18 @@ contract BountyNest is Admin, SimpleBank
     }
 
     /**
-        Add new bounty.
+        @notice Add new bounty.
         @param _description details of the bounty.
         @param _reward reward to who gonna resolve it. must be gt zero and lt msg.value
         @return the bounty id to be used in further interactions.
      */
-    function addBountry(string memory _description, uint _reward)
+    function add(string memory _description, uint _reward)
         public
         payable
         validSender()
         paidEnough(_reward)
         returns(uint bountyId)
-    {        
+    {
         require(_reward > 0, "reward can not be zero");
         bountyId = ++bountiesCount;
         bountyList[bountyId] = Bounty({
@@ -154,57 +152,60 @@ contract BountyNest is Admin, SimpleBank
             reward: _reward,
             state: BountyState.Open,
             poster: msg.sender,
-            acceptedSubmission: 0
-        });
-        // if(myBounties[msg.sender].length == 0)
-        // {
-        //     myBounties[msg.sender] = new uint[](1);
-        // }
+            accepted: 0,
+            submissions: new uint[](1)
+        });        
         myBounties[msg.sender].push(bountyId);
         emit Opened(bountyId);
+        enroll(msg.sender);
+        deposit();
+        transfer(msg.sender, address(this), msg.value);        
     }
 
     /**
-        Close existing bounty by poster
+        @notice Close existing bounty by poster
         @param bountyId id of bounty to get closed
      */
-    function closeBounty(uint bountyId)
+    function close(uint bountyId)
         public
         onlyPoster(bountyId)
         opened(bountyId)
         returns(bool)
     {   
-        bountyList[bountyId].state = BountyState.Closed;
+        bountyList[bountyId].state = BountyState.Closed;        
         emit Closed(bountyId);
+        transfer(address(this), bountyList[bountyId].poster, bountyList[bountyId].reward);
         return true;
     }
 
     /**
-        Add new submission to existing bounty
-        @param _bountyId id of related bounty
+        @notice Add new submission to existing bounty
+        @param bountyId id of related bounty
         @param resolution submission itself
         @return the id of the created submission
      */
-    function submitResolution(uint _bountyId, string memory resolution)
+    function submitResolution(uint bountyId, string memory resolution)
         public
         validSender()
-        opened(_bountyId)
+        opened(bountyId)
         returns(uint submissionId)
     {
         submissionId = ++submissionsCount;
         submissions[submissionId] = Submission({
             id: submissionId,
-            bountyId: _bountyId,
+            bountyId: bountyId,
             resolution: resolution,
             submitter: msg.sender,
             state: SubmissionState.Pending
         });
         mySubmissions[msg.sender].push(submissionId);
-        emit SubmissionAdded(_bountyId, submissionId);
+        bountyList[bountyId].submissions.push(submissionId);
+        emit SubmissionAdded(bountyId, submissionId);
     }
 
     /**
-        Accept submission by bounty poster
+        @notice Accept submission by bounty poster
+        @dev it uses inherited simple bank to manager payments
         @param submissionId id of submission to be accepted
      */
     function accept(uint submissionId)
@@ -215,28 +216,42 @@ contract BountyNest is Admin, SimpleBank
         opened(submissions[submissionId].bountyId)
     {
         submissions[submissionId].state = SubmissionState.Accepted;
-        bountyList[submissions[submissionId].bountyId].state = BountyState.Resolved;
-        // handle payment
+        Bounty storage bounty = bountyList[submissions[submissionId].bountyId];
+        bounty.accepted = submissionId;
+        bounty.state = BountyState.Resolved;
+        enroll(submissions[submissionId].submitter);
+        transfer(address(this), submissions[submissionId].submitter, bounty.reward);
         emit SubmissionAccepted(submissionId, submissions[submissionId].bountyId);
     }
 
     /**
-        Reject submission by bounty poster
+        @notice Reject submission by bounty poster
+        @dev it uses inherited simple bank to manager payments
         @param submissionId id of submission to be rejected
      */
     function reject(uint submissionId)
-        public
-        submissionExists(submissionId)
-        pending(submissionId)
-        onlyPoster(submissions[submissionId].bountyId)
-        opened(submissions[submissionId].bountyId)
+        public        
     {
+        canAcceptOrReject(submissionId);
         submissions[submissionId].state = SubmissionState.Rejected;
         emit SubmissionRejected(submissionId, submissions[submissionId].bountyId);
     }
 
     /**
-        List all bounties listed by sender
+        common criteria for accepting or rejecting submission
+     */
+    function canAcceptOrReject(uint submissionId)
+        internal
+        view        
+        submissionExists(submissionId)
+        pending(submissionId)
+        onlyPoster(submissions[submissionId].bountyId)
+        opened(submissions[submissionId].bountyId)
+    {
+    }
+
+    /**
+        @notice List all bounties listed by sender
      */
     function listMyBounties()
         public
@@ -248,7 +263,7 @@ contract BountyNest is Admin, SimpleBank
     }
 
     /**
-        List all submissions listed by sender
+        @notice List all submissions listed by sender
      */
     function listMySubmissions()
         public
@@ -260,13 +275,13 @@ contract BountyNest is Admin, SimpleBank
     }
 
     /**
-        fetch bounty information
+        @notice fetch bounty information
         @param bountyId id of bounty
      */
     function fetchBounty(uint bountyId)
         public
         view
-        returns(string memory desc, uint reward, address poster)
+        returns(string memory desc, uint reward, address poster, uint state, uint[] memory _submissions)
     {
         Bounty memory bounty = bountyList[bountyId];
         if(bountyId == bounty.id)
@@ -274,6 +289,19 @@ contract BountyNest is Admin, SimpleBank
             desc = bounty.description;
             reward = bounty.reward;
             poster = bounty.poster;
+            if(bounty.state == BountyState.Open)
+            {
+                state = 1;
+            }
+            if(bounty.state == BountyState.Closed)
+            {
+                state = 2;
+            }
+            if(bounty.state == BountyState.Resolved)
+            {
+                state = 3;
+            }
+            _submissions = bounty.submissions;
         }     
     }
 
@@ -281,6 +309,7 @@ contract BountyNest is Admin, SimpleBank
         Debutes to be coded later. It's the reason why admin contract is coded so that admins only
         can resolve debutes
      */
+    /*
     function createDepute(uint submissionId, string memory description)
         public
         returns(uint deputeId)
@@ -291,10 +320,19 @@ contract BountyNest is Admin, SimpleBank
         public
         returns(bool success)
     {        
+    }*/
+
+    /**
+        Enroll should not be supported. Better to use a new base class that only allow withdraw if have time.
+     */
+    function enroll() public returns (bool){
+        return false;
     }
 
     /**
         these functions to check status of bounty and submission. used more by tests
+        they will be deleted in the future
+        no need to expose internal state
      */
     function isOpen(uint bountyId)
         public

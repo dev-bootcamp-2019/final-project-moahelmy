@@ -25,7 +25,7 @@ contract Admin is Owned {
     }
 
     /**
-        add new admin. only admin can call it
+        @notice Add new admin. only admin can call it
         @param _admin address of new admin to be added
         @return success flag
      */
@@ -41,7 +41,7 @@ contract Admin is Owned {
     }
 
     /**
-        remove existing admin. only owner can call it
+        @notice Remove existing admin. only owner can call it
         @param _admin address of admin to be removed
         @return success flag
      */
@@ -57,7 +57,7 @@ contract Admin is Owned {
     }
 
     /**
-        internal function to check if user is admin
+        @notice Check if user is admin        
         @param user address of user to be checked
      */
     function isAdmin(address user)
