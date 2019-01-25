@@ -48,8 +48,6 @@ contract('SimpleBank', function(accounts) {
     assert.equal(expectedEventResult.amount, logDepositAmount, "LogDepositMade event amount property not emitted, check deposit method");
   });
 
-  // deposit failure tests
-
   it("should withdraw correct amount", async () => {
     const bank = await SimpleBank.deployed();
     const initialAmount = 0;
@@ -71,6 +69,4 @@ contract('SimpleBank', function(accounts) {
     assert.equal(expectedEventResult.withdrawAmount, withdrawAmount, "LogWithdrawal event withdrawalAmount property not emitted, check deposit method");
 
   });
-
-  // withdraw failure tests
 });

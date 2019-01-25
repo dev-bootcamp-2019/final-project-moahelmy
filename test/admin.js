@@ -21,8 +21,8 @@ contract('Admin', function (accounts) {
 
         const isAdmin = await admin.isAdmin.call(administrator);
  
-        assert.equal(loggedAdmin, administrator, "administrator has been added successfully");
-        assert.equal(eventEmitted, true, 'adding an item should emit admin added event');
+        assert.equal(eventEmitted, true, 'adding an admin should emit admin added event');
+        assert.equal(loggedAdmin, administrator, "administrator has been added successfully");        
         assert.equal(isAdmin, true, "should be marked as admin");
     });
 
@@ -67,8 +67,8 @@ contract('Admin', function (accounts) {
         }        
         const isAdmin = await admin.isAdmin.call(administrator);
 
-        assert.equal(logged, administrator, "administrator has been removed successfully");
-        assert.equal(eventEmitted, true, 'adding an item should emit admin removed event');
+        assert.equal(eventEmitted, true, 'event should have been emitted');
+        assert.equal(logged, administrator, "administrator has been removed successfully");        
         assert.equal(isAdmin, false, "should be no longer admin");
     });
 });
