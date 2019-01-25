@@ -83,6 +83,14 @@ contract BountyNest is Admin, SimpleBank
         _;
     }
     /**
+        modifier to check if bounty exists
+     */
+    modifier bountyExists(uint bountyId)
+    {
+        require(bountyList[bountyId].id == bountyId, "not exists");
+        _;
+    }
+    /**
         modifier to confirms if bounty still open
      */
     modifier opened(uint bountyId)
@@ -91,10 +99,28 @@ contract BountyNest is Admin, SimpleBank
         _;
     }
     /**
+        modifier to check if submission exists
+     */
+    modifier submissionExists(uint id)
+    {
+        require(bountyList[id].id == id, "not exists");
+        _;
+    }
+    /**
         modifer to confirm that submission still open
      */
     modifier pending(uint submissionId)
     {
+        require(submissions[submissionId].state == SubmissionState.Pending, "submission is not pending");
+        _;
+    }
+
+    /**
+        check if caller not address(0)
+     */
+    modifier validSender()
+    {
+        require(msg.sender != address(0), "not valid sender");
         _;
     }
 
@@ -116,10 +142,10 @@ contract BountyNest is Admin, SimpleBank
     function addBountry(string memory _description, uint _reward)
         public
         payable
+        validSender()
         paidEnough(_reward)
         returns(uint bountyId)
     {        
-        require(msg.sender != address(0), "sender not null");
         require(_reward > 0, "reward can not be zero");
         bountyId = ++bountiesCount;
         bountyList[bountyId] = Bounty({
@@ -130,6 +156,11 @@ contract BountyNest is Admin, SimpleBank
             poster: msg.sender,
             acceptedSubmission: 0
         });
+        // if(myBounties[msg.sender].length == 0)
+        // {
+        //     myBounties[msg.sender] = new uint[](1);
+        // }
+        myBounties[msg.sender].push(bountyId);
         emit Opened(bountyId);
     }
 
@@ -156,8 +187,14 @@ contract BountyNest is Admin, SimpleBank
      */
     function submitResolution(uint bountyId, string memory resolution)
         public
+        validSender()
+        opened(bountyId)    
         returns(uint submissionId)
     {
+        submissionId = ++submissionsCount;
+        // Submissions[submissionId] = Submission({
+        //     id: submissionId
+        // });
     }
 
     /**
@@ -184,9 +221,10 @@ contract BountyNest is Admin, SimpleBank
     function listMyBounties()
         public
         view
+        validSender()
         returns(uint[] memory bounties)
     {
-
+        return myBounties[msg.sender];
     }
 
     /**
@@ -240,6 +278,7 @@ contract BountyNest is Admin, SimpleBank
     function isOpen(uint bountyId)
         public
         view
+        bountyExists(bountyId)
         returns(bool)
     {
         return bountyList[bountyId].state == BountyState.Open;
@@ -248,6 +287,7 @@ contract BountyNest is Admin, SimpleBank
     function isClosed(uint bountyId)
         public
         view
+        bountyExists(bountyId)
         returns(bool)
     {
         return bountyList[bountyId].state == BountyState.Closed;
@@ -256,6 +296,7 @@ contract BountyNest is Admin, SimpleBank
     function isResolved(uint bountyId)
         public
         view
+        bountyExists(bountyId)
         returns(bool)
     {
         return bountyList[bountyId].state == BountyState.Resolved;
