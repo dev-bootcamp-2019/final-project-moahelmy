@@ -17,7 +17,7 @@ contract OwnedExample is Owned {
     }
 
     function onlyOwnerShouldAccessThis() 
-    public
+        public
         onlyOwner
     {
     }

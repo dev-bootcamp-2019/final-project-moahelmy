@@ -1,12 +1,13 @@
 pragma solidity ^0.5.0;
 import "./Admin.sol";
+import "./CircuitBreaker.sol";
 import "./SimpleBank.sol";
 
 /**
     @author moahelmy
     @title manage bounties contract
  */
-contract BountyNest is Admin, SimpleBank
+contract BountyNest is Admin, CircuitBreaker, SimpleBank
 {
     /**
         Bounty List
@@ -140,8 +141,9 @@ contract BountyNest is Admin, SimpleBank
     function add(string memory _description, uint _reward)
         public
         payable
+        stopInEmergency()
         validSender()
-        paidEnough(_reward)
+        paidEnough(_reward)        
         returns(uint bountyId)
     {
         require(_reward > 0, "reward can not be zero");
@@ -184,8 +186,9 @@ contract BountyNest is Admin, SimpleBank
         @param resolution submission itself
         @return the id of the created submission
      */
-    function submitResolution(uint bountyId, string memory resolution)
+    function submit(uint bountyId, string memory resolution)
         public
+        stopInEmergency()
         validSender()
         opened(bountyId)
         returns(uint submissionId)
@@ -210,6 +213,7 @@ contract BountyNest is Admin, SimpleBank
      */
     function accept(uint submissionId)
         public
+        stopInEmergency()
         submissionExists(submissionId)
         pending(submissionId)
         onlyPoster(submissions[submissionId].bountyId)

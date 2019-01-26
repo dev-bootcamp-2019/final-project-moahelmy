@@ -57,8 +57,7 @@ contract('BountyNest', function (accounts) {
         })[0];
         bountyToBeClosed = parseInt(openedEvent.args.bountyId.toString(10));
 
-        result = await bountyNest.balance({ from: bountyNest.address });
-        console.log(result);
+        result = await bountyNest.balance({ from: bountyNest.address });        
         contractBalance = result.toNumber();
     });
     
@@ -114,7 +113,7 @@ contract('BountyNest', function (accounts) {
         let eventEmitted = false;
         let loggedSubmissionId;
         // submit to one of the added bounties
-        var result = await bountyNest.submitResolution(bountyToBeResolved, "to be accepted", { from: bountyHunter });
+        var result = await bountyNest.submit(bountyToBeResolved, "to be accepted", { from: bountyHunter });
         // check for event        
         if(result.logs[0] && result.logs[0].event)
         {
@@ -130,14 +129,14 @@ contract('BountyNest', function (accounts) {
         assert.equal(isPending, true, 'submission should be pending');
 
         // add another submission to be used in test scanrios after making sure adding new submission works
-        result = await bountyNest.submitResolution(bountyToBeResolved, "to be rejected", { from: bountyHunter });;
+        result = await bountyNest.submit(bountyToBeResolved, "to be rejected", { from: bountyHunter });;
         submissionToBeRejected = parseInt(result.logs[0].args.submissionId.toString(10));
     });
 
     it('can submit to open bounty only', async () => {
         const bountyNest = await BountyNest.deployed();
 
-        await assertThrow.expectRevert(bountyNest.submitResolution(bountyToBeClosed, "should fail", { from: bountyHunter }));
+        await assertThrow.expectRevert(bountyNest.submit(bountyToBeClosed, "should fail", { from: bountyHunter }));
     });
 
     it('can accept or reject submission on open bounty only', async () => {
@@ -146,7 +145,7 @@ contract('BountyNest', function (accounts) {
         var result = await bountyNest.add("test", 100, { from: jobPoster, value: 100 });        
         const bountyId = parseInt(result.logs[0].args.bountyId.toString(10));        
 
-        result = await bountyNest.submitResolution(bountyId, "to be accepted", { from: bountyHunter });        
+        result = await bountyNest.submit(bountyId, "to be accepted", { from: bountyHunter });        
         const submissionId = parseInt(result.logs[0].args.submissionId.toString(10));        
 
         await bountyNest.close(bountyId, { from: jobPoster });
