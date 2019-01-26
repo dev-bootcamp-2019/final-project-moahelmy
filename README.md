@@ -30,15 +30,29 @@ At the moment, no more submissions can be added, however it should be better to 
 
 Job poster can choose to reject a submission.
 
-## How to run the app?
+## Notes for developers
+
+## Prerequisites
+
+- Solidity v5
+- Truffle v5.0.1
+- npm 3.5.2
+- ganachi-cli
+- Metamask
+
+### Running tests
+
+To migrate contracts to your local env. Make sure ganache is running the back-ground and run this command
+
+> truffle migrate (Add --reset if not first run)
 
 The app is truffle project, so developer can run all tests using:
 
 > truffle test
 
-To migrate contracts to your local env. Make sure ganache is running the back-ground and run this command
+Please notice contracts need to be migrated before running tests.
 
-> truffle migrate (Add --reset if not first run)
+### Running the App
 
 To run the web app just do the following
 
@@ -48,3 +62,10 @@ To run the web app just do the following
     > npm run start
 
 This will open a new locahost:3000 tab in your browser.
+
+## Author
+
+Mohammad Mahmoud (as per gov. and Mohammad Helmy for most people)
+
+Twitter: [@moahelmy] (https://twitter.com/moahelmy)
+Github: [moahelmy] (https://github.com/moahelmy)
