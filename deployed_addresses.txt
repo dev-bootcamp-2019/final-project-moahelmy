@@ -1,0 +1,33 @@
+Starting migrations...
+======================
+> Network name:    'rinkeby'
+> Network id:      4
+> Block gas limit: 7003648
+
+
+1_initial_migration.js
+======================
+
+   Deploying 'Migrations'
+   ----------------------
+   > contract address:    0xB09E71e58151001ff56ACEf276791e2C3b7752E5   
+
+2_deploy_contracts.js
+=====================
+
+   Deploying 'Owned'
+   -----------------
+   > contract address:    0xdC58266efe90A1A520CAe49aE3Dad4446b0d582D   
+
+   Deploying 'Admin'
+   -----------------
+   > contract address:    0x81fFF6ddF60f09695B71585BB0AFB03f7eCF8D32   
+
+   Deploying 'SimpleBank'
+   ----------------------
+   > contract address:    0x456B3b67Cdb5ff94Ea3CE71801fCD236d49CA787   
+
+
+   Deploying 'BountyNest'
+   ----------------------
+   > contract address:    0xff8a92b973E27042cd0B64ccA3Cc1b24885E699B
