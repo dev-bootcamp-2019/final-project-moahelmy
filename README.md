@@ -67,5 +67,5 @@ This will open a new locahost:3000 tab in your browser.
 
 Mohammad Mahmoud (as per gov. and Mohammad Helmy for most people)
 
-Twitter: [@moahelmy] (https://twitter.com/moahelmy)
-Github: [moahelmy] (https://github.com/moahelmy)
+- Twitter: [@moahelmy](https://twitter.com/moahelmy)
+- Github: [moahelmy](https://github.com/moahelmy)

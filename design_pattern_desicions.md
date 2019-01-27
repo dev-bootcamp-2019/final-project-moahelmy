@@ -24,4 +24,6 @@ Circuit Breaker is implemented in separate contract and inherited by BountyNest.
 
 Only owner can stop the contract or resume it.
 
+## Upgradable Relay Pattern
 
+I implemented the Relay pattern to allow upgrade. At the moment, the work is incomplete as the storeage need to be external rather than inherited.
