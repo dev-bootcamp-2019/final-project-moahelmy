@@ -667,6 +667,12 @@
     "version": "0.5.0+commit.1d4f565a.Emscripten.clang"
   },
   "networks": {
+    "4": {
+      "events": {},
+      "links": {},
+      "address": "0xdC58266efe90A1A520CAe49aE3Dad4446b0d582D",
+      "transactionHash": "0x91ded576b1a06b137d372b3baba06e012a6fd1c3f80a17ead1e552368c91e589"
+    },
     "1547807587700": {
       "events": {},
       "links": {},
@@ -682,12 +688,18 @@
     "1548421680030": {
       "events": {},
       "links": {},
-      "address": "0x6a6A7e036ded733D608A94271E92F31bABE7CcD9",
-      "transactionHash": "0x9fe9ced21563bba8fa32ed841dbe7212f51df1516a7146c65fcaa620ddc35c30"
+      "address": "0x732c64182D12FE3914d4B8569F818b96558fa62C",
+      "transactionHash": "0x8922a93224efe02d930fd186340325eb6df3b537b7bf6563aeff7a3834b7d5af"
+    },
+    "1548503431470": {
+      "events": {},
+      "links": {},
+      "address": "0xE87b1ed988E3903b9eba5a55DC3373A7e4def443",
+      "transactionHash": "0x0404a1b5022372b422ad293ba2a258f3d9574cdd5cc5acf3ba979fa9d8972c6f"
     }
   },
   "schemaVersion": "3.0.1",
-  "updatedAt": "2019-01-26T05:31:44.494Z",
+  "updatedAt": "2019-01-28T02:24:25.159Z",
   "devdoc": {
     "author": "moahelmy",
     "methods": {},

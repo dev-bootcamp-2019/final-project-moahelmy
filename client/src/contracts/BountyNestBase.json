@@ -1,0 +1,1530 @@
+{
+  "contractName": "BountyNestBase",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "bountiesCount",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "submissionsCount",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "bountyList",
+      "outputs": [
+        {
+          "name": "id",
+          "type": "uint256"
+        },
+        {
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "name": "poster",
+          "type": "address"
+        },
+        {
+          "name": "reward",
+          "type": "uint256"
+        },
+        {
+          "name": "state",
+          "type": "uint8"
+        },
+        {
+          "name": "accepted",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "submissions",
+      "outputs": [
+        {
+          "name": "id",
+          "type": "uint256"
+        },
+        {
+          "name": "bountyId",
+          "type": "uint256"
+        },
+        {
+          "name": "resolution",
+          "type": "string"
+        },
+        {
+          "name": "submitter",
+          "type": "address"
+        },
+        {
+          "name": "state",
+          "type": "uint8"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x608060405234801561001057600080fd5b5061050c806100206000396000f3fe608060405260043610610062576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806313b32e971461006757806375d44398146100925780639c695749146100bd578063ad73349e146101ce575b600080fd5b34801561007357600080fd5b5061007c6102d8565b6040518082815260200191505060405180910390f35b34801561009e57600080fd5b506100a76102de565b6040518082815260200191505060405180910390f35b3480156100c957600080fd5b506100f6600480360360208110156100e057600080fd5b81019080803590602001909291905050506102e4565b60405180878152602001806020018673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200185815260200184600281111561014857fe5b60ff168152602001838152602001828103825287818151815260200191508051906020019080838360005b8381101561018e578082015181840152602081019050610173565b50505050905090810190601f1680156101bb5780820380516001836020036101000a031916815260200191505b5097505050505050505060405180910390f35b3480156101da57600080fd5b50610207600480360360208110156101f157600080fd5b81019080803590602001909291905050506103e5565b60405180868152602001858152602001806020018473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200183600281111561025957fe5b60ff168152602001828103825285818151815260200191508051906020019080838360005b8381101561029957808201518184015260208101905061027e565b50505050905090810190601f1680156102c65780820380516001836020036101000a031916815260200191505b50965050505050505060405180910390f35b60005481565b60035481565b6001602052806000526040600020600091509050806000015490806001018054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156103965780601f1061036b57610100808354040283529160200191610396565b820191906000526020600020905b81548152906001019060200180831161037957829003601f168201915b5050505050908060020160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16908060030154908060040160009054906101000a900460ff16908060050154905086565b6004602052806000526040600020600091509050806000015490806001015490806002018054600181600116156101000203166002900480601f01602080910402602001604051908101604052809291908181526020018280546001816001161561010002031660029004801561049d5780601f106104725761010080835404028352916020019161049d565b820191906000526020600020905b81548152906001019060200180831161048057829003601f168201915b5050505050908060030160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16908060030160149054906101000a900460ff1690508556fea165627a7a723058208a6901569401961b5997f18d2c75182178b44bfb38034fc1fc9f1addf0dfb98f0029",
+  "deployedBytecode": "0x608060405260043610610062576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806313b32e971461006757806375d44398146100925780639c695749146100bd578063ad73349e146101ce575b600080fd5b34801561007357600080fd5b5061007c6102d8565b6040518082815260200191505060405180910390f35b34801561009e57600080fd5b506100a76102de565b6040518082815260200191505060405180910390f35b3480156100c957600080fd5b506100f6600480360360208110156100e057600080fd5b81019080803590602001909291905050506102e4565b60405180878152602001806020018673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200185815260200184600281111561014857fe5b60ff168152602001838152602001828103825287818151815260200191508051906020019080838360005b8381101561018e578082015181840152602081019050610173565b50505050905090810190601f1680156101bb5780820380516001836020036101000a031916815260200191505b5097505050505050505060405180910390f35b3480156101da57600080fd5b50610207600480360360208110156101f157600080fd5b81019080803590602001909291905050506103e5565b60405180868152602001858152602001806020018473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200183600281111561025957fe5b60ff168152602001828103825285818151815260200191508051906020019080838360005b8381101561029957808201518184015260208101905061027e565b50505050905090810190601f1680156102c65780820380516001836020036101000a031916815260200191505b50965050505050505060405180910390f35b60005481565b60035481565b6001602052806000526040600020600091509050806000015490806001018054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156103965780601f1061036b57610100808354040283529160200191610396565b820191906000526020600020905b81548152906001019060200180831161037957829003601f168201915b5050505050908060020160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16908060030154908060040160009054906101000a900460ff16908060050154905086565b6004602052806000526040600020600091509050806000015490806001015490806002018054600181600116156101000203166002900480601f01602080910402602001604051908101604052809291908181526020018280546001816001161561010002031660029004801561049d5780601f106104725761010080835404028352916020019161049d565b820191906000526020600020905b81548152906001019060200180831161048057829003601f168201915b5050505050908060030160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16908060030160149054906101000a900460ff1690508556fea165627a7a723058208a6901569401961b5997f18d2c75182178b44bfb38034fc1fc9f1addf0dfb98f0029",
+  "sourceMap": "100:1092:2:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;100:1092:2;;;;;;;",
+  "deployedSourceMap": "100:1092:2:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;169:25;;8:9:-1;5:2;;;30:1;27;20:12;5:2;169:25:2;;;;;;;;;;;;;;;;;;;;;;;434:28;;8:9:-1;5:2;;;30:1;27;20:12;5:2;434:28:2;;;;;;;;;;;;;;;;;;;;;;;256:41;;8:9:-1;5:2;;;30:1;27;20:12;5:2;256:41:2;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;256:41:2;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:10;8:100;;;99:1;94:3;90:11;84:18;80:1;75:3;71:11;64:39;52:2;49:1;45:10;40:15;;8:100;;;12:14;256:41:2;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;496:46;;8:9:-1;5:2;;;30:1;27;20:12;5:2;496:46:2;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;496:46:2;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:10;8:100;;;99:1;94:3;90:11;84:18;80:1;75:3;71:11;64:39;52:2;49:1;45:10;40:15;;8:100;;;12:14;496:46:2;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;169:25;;;;:::o;434:28::-;;;;:::o;256:41::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;496:46::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o",
+  "source": "pragma solidity ^0.5.0;\n\n/**\n    @author moahelmy\n    @title used to store data for bounty nest\n */\ncontract BountyNestBase\n{\n    /**\n        Bounty List\n    */    \n    uint public bountiesCount;\n    /// actuall list of bounties that will be looked up\n    mapping(uint => Bounty) public bountyList;        \n    /// contains bouties grouped by poster\n    mapping(address => uint[]) myBounties;\n\n    /**\n        Submissions\n     */\n    uint public submissionsCount;\n    /// list of submissions\n    mapping(uint => Submission) public submissions;\n    /// group submissions by bounty hunters\n    mapping(address => uint[]) mySubmissions;    \n\n    /// enum to track state of bounty\n    enum BountyState { Open, Closed, Resolved }\n\n    struct Bounty\n    {\n        uint id;\n        string description;\n        address poster;\n        uint reward;\n        BountyState state;\n        uint accepted;\n        uint[] submissions;\n    }\n\n    /// enum to track state of submission\n    enum SubmissionState { Pending, Accepted, Rejected }\n    struct Submission\n    {\n        uint id;\n        uint bountyId;        \n        string resolution;\n        address submitter;\n        SubmissionState state;\n    }\n}",
+  "sourcePath": "/home/mohammad/Dev/block_chain/projects/final-project-moahelmy/contracts/BountyNestBase.sol",
+  "ast": {
+    "absolutePath": "/home/mohammad/Dev/block_chain/projects/final-project-moahelmy/contracts/BountyNestBase.sol",
+    "exportedSymbols": {
+      "BountyNestBase": [
+        945
+      ]
+    },
+    "id": 946,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 887,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:2"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": "@author moahelmy\n@title used to store data for bounty nest",
+        "fullyImplemented": true,
+        "id": 945,
+        "linearizedBaseContracts": [
+          945
+        ],
+        "name": "BountyNestBase",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 889,
+            "name": "bountiesCount",
+            "nodeType": "VariableDeclaration",
+            "scope": 945,
+            "src": "169:25:2",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 888,
+              "name": "uint",
+              "nodeType": "ElementaryTypeName",
+              "src": "169:4:2",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 893,
+            "name": "bountyList",
+            "nodeType": "VariableDeclaration",
+            "scope": 945,
+            "src": "256:41:2",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Bounty_$929_storage_$",
+              "typeString": "mapping(uint256 => struct BountyNestBase.Bounty)"
+            },
+            "typeName": {
+              "id": 892,
+              "keyType": {
+                "id": 890,
+                "name": "uint",
+                "nodeType": "ElementaryTypeName",
+                "src": "264:4:2",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "256:23:2",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Bounty_$929_storage_$",
+                "typeString": "mapping(uint256 => struct BountyNestBase.Bounty)"
+              },
+              "valueType": {
+                "contractScope": null,
+                "id": 891,
+                "name": "Bounty",
+                "nodeType": "UserDefinedTypeName",
+                "referencedDeclaration": 929,
+                "src": "272:6:2",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_Bounty_$929_storage_ptr",
+                  "typeString": "struct BountyNestBase.Bounty"
+                }
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 898,
+            "name": "myBounties",
+            "nodeType": "VariableDeclaration",
+            "scope": 945,
+            "src": "354:37:2",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_address_$_t_array$_t_uint256_$dyn_storage_$",
+              "typeString": "mapping(address => uint256[])"
+            },
+            "typeName": {
+              "id": 897,
+              "keyType": {
+                "id": 894,
+                "name": "address",
+                "nodeType": "ElementaryTypeName",
+                "src": "362:7:2",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "354:26:2",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_address_$_t_array$_t_uint256_$dyn_storage_$",
+                "typeString": "mapping(address => uint256[])"
+              },
+              "valueType": {
+                "baseType": {
+                  "id": 895,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "373:4:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "id": 896,
+                "length": null,
+                "nodeType": "ArrayTypeName",
+                "src": "373:6:2",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                  "typeString": "uint256[]"
+                }
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "constant": false,
+            "id": 900,
+            "name": "submissionsCount",
+            "nodeType": "VariableDeclaration",
+            "scope": 945,
+            "src": "434:28:2",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 899,
+              "name": "uint",
+              "nodeType": "ElementaryTypeName",
+              "src": "434:4:2",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 904,
+            "name": "submissions",
+            "nodeType": "VariableDeclaration",
+            "scope": 945,
+            "src": "496:46:2",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Submission_$944_storage_$",
+              "typeString": "mapping(uint256 => struct BountyNestBase.Submission)"
+            },
+            "typeName": {
+              "id": 903,
+              "keyType": {
+                "id": 901,
+                "name": "uint",
+                "nodeType": "ElementaryTypeName",
+                "src": "504:4:2",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "496:27:2",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Submission_$944_storage_$",
+                "typeString": "mapping(uint256 => struct BountyNestBase.Submission)"
+              },
+              "valueType": {
+                "contractScope": null,
+                "id": 902,
+                "name": "Submission",
+                "nodeType": "UserDefinedTypeName",
+                "referencedDeclaration": 944,
+                "src": "512:10:2",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_Submission_$944_storage_ptr",
+                  "typeString": "struct BountyNestBase.Submission"
+                }
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 909,
+            "name": "mySubmissions",
+            "nodeType": "VariableDeclaration",
+            "scope": 945,
+            "src": "592:40:2",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_address_$_t_array$_t_uint256_$dyn_storage_$",
+              "typeString": "mapping(address => uint256[])"
+            },
+            "typeName": {
+              "id": 908,
+              "keyType": {
+                "id": 905,
+                "name": "address",
+                "nodeType": "ElementaryTypeName",
+                "src": "600:7:2",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "592:26:2",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_address_$_t_array$_t_uint256_$dyn_storage_$",
+                "typeString": "mapping(address => uint256[])"
+              },
+              "valueType": {
+                "baseType": {
+                  "id": 906,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "611:4:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "id": 907,
+                "length": null,
+                "nodeType": "ArrayTypeName",
+                "src": "611:6:2",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                  "typeString": "uint256[]"
+                }
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "canonicalName": "BountyNestBase.BountyState",
+            "id": 913,
+            "members": [
+              {
+                "id": 910,
+                "name": "Open",
+                "nodeType": "EnumValue",
+                "src": "700:4:2"
+              },
+              {
+                "id": 911,
+                "name": "Closed",
+                "nodeType": "EnumValue",
+                "src": "706:6:2"
+              },
+              {
+                "id": 912,
+                "name": "Resolved",
+                "nodeType": "EnumValue",
+                "src": "714:8:2"
+              }
+            ],
+            "name": "BountyState",
+            "nodeType": "EnumDefinition",
+            "src": "681:43:2"
+          },
+          {
+            "canonicalName": "BountyNestBase.Bounty",
+            "id": 929,
+            "members": [
+              {
+                "constant": false,
+                "id": 915,
+                "name": "id",
+                "nodeType": "VariableDeclaration",
+                "scope": 929,
+                "src": "758:7:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 914,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "758:4:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 917,
+                "name": "description",
+                "nodeType": "VariableDeclaration",
+                "scope": 929,
+                "src": "775:18:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 916,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "775:6:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 919,
+                "name": "poster",
+                "nodeType": "VariableDeclaration",
+                "scope": 929,
+                "src": "803:14:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 918,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "803:7:2",
+                  "stateMutability": "nonpayable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 921,
+                "name": "reward",
+                "nodeType": "VariableDeclaration",
+                "scope": 929,
+                "src": "827:11:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 920,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "827:4:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 923,
+                "name": "state",
+                "nodeType": "VariableDeclaration",
+                "scope": 929,
+                "src": "848:17:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_enum$_BountyState_$913",
+                  "typeString": "enum BountyNestBase.BountyState"
+                },
+                "typeName": {
+                  "contractScope": null,
+                  "id": 922,
+                  "name": "BountyState",
+                  "nodeType": "UserDefinedTypeName",
+                  "referencedDeclaration": 913,
+                  "src": "848:11:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_BountyState_$913",
+                    "typeString": "enum BountyNestBase.BountyState"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 925,
+                "name": "accepted",
+                "nodeType": "VariableDeclaration",
+                "scope": 929,
+                "src": "875:13:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 924,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "875:4:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 928,
+                "name": "submissions",
+                "nodeType": "VariableDeclaration",
+                "scope": 929,
+                "src": "898:18:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                  "typeString": "uint256[]"
+                },
+                "typeName": {
+                  "baseType": {
+                    "id": 926,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "898:4:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 927,
+                  "length": null,
+                  "nodeType": "ArrayTypeName",
+                  "src": "898:6:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                    "typeString": "uint256[]"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "Bounty",
+            "nodeType": "StructDefinition",
+            "scope": 945,
+            "src": "730:193:2",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "BountyNestBase.SubmissionState",
+            "id": 933,
+            "members": [
+              {
+                "id": 930,
+                "name": "Pending",
+                "nodeType": "EnumValue",
+                "src": "994:7:2"
+              },
+              {
+                "id": 931,
+                "name": "Accepted",
+                "nodeType": "EnumValue",
+                "src": "1003:8:2"
+              },
+              {
+                "id": 932,
+                "name": "Rejected",
+                "nodeType": "EnumValue",
+                "src": "1013:8:2"
+              }
+            ],
+            "name": "SubmissionState",
+            "nodeType": "EnumDefinition",
+            "src": "971:52:2"
+          },
+          {
+            "canonicalName": "BountyNestBase.Submission",
+            "id": 944,
+            "members": [
+              {
+                "constant": false,
+                "id": 935,
+                "name": "id",
+                "nodeType": "VariableDeclaration",
+                "scope": 944,
+                "src": "1060:7:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 934,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1060:4:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 937,
+                "name": "bountyId",
+                "nodeType": "VariableDeclaration",
+                "scope": 944,
+                "src": "1077:13:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 936,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1077:4:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 939,
+                "name": "resolution",
+                "nodeType": "VariableDeclaration",
+                "scope": 944,
+                "src": "1108:17:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 938,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1108:6:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 941,
+                "name": "submitter",
+                "nodeType": "VariableDeclaration",
+                "scope": 944,
+                "src": "1135:17:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 940,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1135:7:2",
+                  "stateMutability": "nonpayable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 943,
+                "name": "state",
+                "nodeType": "VariableDeclaration",
+                "scope": 944,
+                "src": "1162:21:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_enum$_SubmissionState_$933",
+                  "typeString": "enum BountyNestBase.SubmissionState"
+                },
+                "typeName": {
+                  "contractScope": null,
+                  "id": 942,
+                  "name": "SubmissionState",
+                  "nodeType": "UserDefinedTypeName",
+                  "referencedDeclaration": 933,
+                  "src": "1162:15:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_SubmissionState_$933",
+                    "typeString": "enum BountyNestBase.SubmissionState"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "Submission",
+            "nodeType": "StructDefinition",
+            "scope": 945,
+            "src": "1028:162:2",
+            "visibility": "public"
+          }
+        ],
+        "scope": 946,
+        "src": "100:1092:2"
+      }
+    ],
+    "src": "0:1192:2"
+  },
+  "legacyAST": {
+    "absolutePath": "/home/mohammad/Dev/block_chain/projects/final-project-moahelmy/contracts/BountyNestBase.sol",
+    "exportedSymbols": {
+      "BountyNestBase": [
+        945
+      ]
+    },
+    "id": 946,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 887,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:2"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": "@author moahelmy\n@title used to store data for bounty nest",
+        "fullyImplemented": true,
+        "id": 945,
+        "linearizedBaseContracts": [
+          945
+        ],
+        "name": "BountyNestBase",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 889,
+            "name": "bountiesCount",
+            "nodeType": "VariableDeclaration",
+            "scope": 945,
+            "src": "169:25:2",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 888,
+              "name": "uint",
+              "nodeType": "ElementaryTypeName",
+              "src": "169:4:2",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 893,
+            "name": "bountyList",
+            "nodeType": "VariableDeclaration",
+            "scope": 945,
+            "src": "256:41:2",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Bounty_$929_storage_$",
+              "typeString": "mapping(uint256 => struct BountyNestBase.Bounty)"
+            },
+            "typeName": {
+              "id": 892,
+              "keyType": {
+                "id": 890,
+                "name": "uint",
+                "nodeType": "ElementaryTypeName",
+                "src": "264:4:2",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "256:23:2",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Bounty_$929_storage_$",
+                "typeString": "mapping(uint256 => struct BountyNestBase.Bounty)"
+              },
+              "valueType": {
+                "contractScope": null,
+                "id": 891,
+                "name": "Bounty",
+                "nodeType": "UserDefinedTypeName",
+                "referencedDeclaration": 929,
+                "src": "272:6:2",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_Bounty_$929_storage_ptr",
+                  "typeString": "struct BountyNestBase.Bounty"
+                }
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 898,
+            "name": "myBounties",
+            "nodeType": "VariableDeclaration",
+            "scope": 945,
+            "src": "354:37:2",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_address_$_t_array$_t_uint256_$dyn_storage_$",
+              "typeString": "mapping(address => uint256[])"
+            },
+            "typeName": {
+              "id": 897,
+              "keyType": {
+                "id": 894,
+                "name": "address",
+                "nodeType": "ElementaryTypeName",
+                "src": "362:7:2",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "354:26:2",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_address_$_t_array$_t_uint256_$dyn_storage_$",
+                "typeString": "mapping(address => uint256[])"
+              },
+              "valueType": {
+                "baseType": {
+                  "id": 895,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "373:4:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "id": 896,
+                "length": null,
+                "nodeType": "ArrayTypeName",
+                "src": "373:6:2",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                  "typeString": "uint256[]"
+                }
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "constant": false,
+            "id": 900,
+            "name": "submissionsCount",
+            "nodeType": "VariableDeclaration",
+            "scope": 945,
+            "src": "434:28:2",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 899,
+              "name": "uint",
+              "nodeType": "ElementaryTypeName",
+              "src": "434:4:2",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 904,
+            "name": "submissions",
+            "nodeType": "VariableDeclaration",
+            "scope": 945,
+            "src": "496:46:2",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Submission_$944_storage_$",
+              "typeString": "mapping(uint256 => struct BountyNestBase.Submission)"
+            },
+            "typeName": {
+              "id": 903,
+              "keyType": {
+                "id": 901,
+                "name": "uint",
+                "nodeType": "ElementaryTypeName",
+                "src": "504:4:2",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "496:27:2",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Submission_$944_storage_$",
+                "typeString": "mapping(uint256 => struct BountyNestBase.Submission)"
+              },
+              "valueType": {
+                "contractScope": null,
+                "id": 902,
+                "name": "Submission",
+                "nodeType": "UserDefinedTypeName",
+                "referencedDeclaration": 944,
+                "src": "512:10:2",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_Submission_$944_storage_ptr",
+                  "typeString": "struct BountyNestBase.Submission"
+                }
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 909,
+            "name": "mySubmissions",
+            "nodeType": "VariableDeclaration",
+            "scope": 945,
+            "src": "592:40:2",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_address_$_t_array$_t_uint256_$dyn_storage_$",
+              "typeString": "mapping(address => uint256[])"
+            },
+            "typeName": {
+              "id": 908,
+              "keyType": {
+                "id": 905,
+                "name": "address",
+                "nodeType": "ElementaryTypeName",
+                "src": "600:7:2",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "592:26:2",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_address_$_t_array$_t_uint256_$dyn_storage_$",
+                "typeString": "mapping(address => uint256[])"
+              },
+              "valueType": {
+                "baseType": {
+                  "id": 906,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "611:4:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "id": 907,
+                "length": null,
+                "nodeType": "ArrayTypeName",
+                "src": "611:6:2",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                  "typeString": "uint256[]"
+                }
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "canonicalName": "BountyNestBase.BountyState",
+            "id": 913,
+            "members": [
+              {
+                "id": 910,
+                "name": "Open",
+                "nodeType": "EnumValue",
+                "src": "700:4:2"
+              },
+              {
+                "id": 911,
+                "name": "Closed",
+                "nodeType": "EnumValue",
+                "src": "706:6:2"
+              },
+              {
+                "id": 912,
+                "name": "Resolved",
+                "nodeType": "EnumValue",
+                "src": "714:8:2"
+              }
+            ],
+            "name": "BountyState",
+            "nodeType": "EnumDefinition",
+            "src": "681:43:2"
+          },
+          {
+            "canonicalName": "BountyNestBase.Bounty",
+            "id": 929,
+            "members": [
+              {
+                "constant": false,
+                "id": 915,
+                "name": "id",
+                "nodeType": "VariableDeclaration",
+                "scope": 929,
+                "src": "758:7:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 914,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "758:4:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 917,
+                "name": "description",
+                "nodeType": "VariableDeclaration",
+                "scope": 929,
+                "src": "775:18:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 916,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "775:6:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 919,
+                "name": "poster",
+                "nodeType": "VariableDeclaration",
+                "scope": 929,
+                "src": "803:14:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 918,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "803:7:2",
+                  "stateMutability": "nonpayable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 921,
+                "name": "reward",
+                "nodeType": "VariableDeclaration",
+                "scope": 929,
+                "src": "827:11:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 920,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "827:4:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 923,
+                "name": "state",
+                "nodeType": "VariableDeclaration",
+                "scope": 929,
+                "src": "848:17:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_enum$_BountyState_$913",
+                  "typeString": "enum BountyNestBase.BountyState"
+                },
+                "typeName": {
+                  "contractScope": null,
+                  "id": 922,
+                  "name": "BountyState",
+                  "nodeType": "UserDefinedTypeName",
+                  "referencedDeclaration": 913,
+                  "src": "848:11:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_BountyState_$913",
+                    "typeString": "enum BountyNestBase.BountyState"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 925,
+                "name": "accepted",
+                "nodeType": "VariableDeclaration",
+                "scope": 929,
+                "src": "875:13:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 924,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "875:4:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 928,
+                "name": "submissions",
+                "nodeType": "VariableDeclaration",
+                "scope": 929,
+                "src": "898:18:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                  "typeString": "uint256[]"
+                },
+                "typeName": {
+                  "baseType": {
+                    "id": 926,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "898:4:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 927,
+                  "length": null,
+                  "nodeType": "ArrayTypeName",
+                  "src": "898:6:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                    "typeString": "uint256[]"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "Bounty",
+            "nodeType": "StructDefinition",
+            "scope": 945,
+            "src": "730:193:2",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "BountyNestBase.SubmissionState",
+            "id": 933,
+            "members": [
+              {
+                "id": 930,
+                "name": "Pending",
+                "nodeType": "EnumValue",
+                "src": "994:7:2"
+              },
+              {
+                "id": 931,
+                "name": "Accepted",
+                "nodeType": "EnumValue",
+                "src": "1003:8:2"
+              },
+              {
+                "id": 932,
+                "name": "Rejected",
+                "nodeType": "EnumValue",
+                "src": "1013:8:2"
+              }
+            ],
+            "name": "SubmissionState",
+            "nodeType": "EnumDefinition",
+            "src": "971:52:2"
+          },
+          {
+            "canonicalName": "BountyNestBase.Submission",
+            "id": 944,
+            "members": [
+              {
+                "constant": false,
+                "id": 935,
+                "name": "id",
+                "nodeType": "VariableDeclaration",
+                "scope": 944,
+                "src": "1060:7:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 934,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1060:4:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 937,
+                "name": "bountyId",
+                "nodeType": "VariableDeclaration",
+                "scope": 944,
+                "src": "1077:13:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 936,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1077:4:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 939,
+                "name": "resolution",
+                "nodeType": "VariableDeclaration",
+                "scope": 944,
+                "src": "1108:17:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 938,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1108:6:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 941,
+                "name": "submitter",
+                "nodeType": "VariableDeclaration",
+                "scope": 944,
+                "src": "1135:17:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 940,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1135:7:2",
+                  "stateMutability": "nonpayable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 943,
+                "name": "state",
+                "nodeType": "VariableDeclaration",
+                "scope": 944,
+                "src": "1162:21:2",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_enum$_SubmissionState_$933",
+                  "typeString": "enum BountyNestBase.SubmissionState"
+                },
+                "typeName": {
+                  "contractScope": null,
+                  "id": 942,
+                  "name": "SubmissionState",
+                  "nodeType": "UserDefinedTypeName",
+                  "referencedDeclaration": 933,
+                  "src": "1162:15:2",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_SubmissionState_$933",
+                    "typeString": "enum BountyNestBase.SubmissionState"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "Submission",
+            "nodeType": "StructDefinition",
+            "scope": 945,
+            "src": "1028:162:2",
+            "visibility": "public"
+          }
+        ],
+        "scope": 946,
+        "src": "100:1092:2"
+      }
+    ],
+    "src": "0:1192:2"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.0+commit.1d4f565a.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.1",
+  "updatedAt": "2019-01-26T11:28:59.148Z",
+  "devdoc": {
+    "author": "moahelmy",
+    "methods": {},
+    "title": "used to store data for bounty nest"
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}

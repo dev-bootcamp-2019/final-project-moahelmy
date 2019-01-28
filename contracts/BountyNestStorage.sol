@@ -237,4 +237,15 @@ contract BountyNestStorage is Owned, CircuitBreaker {
             state = 3;
         }        
     }
+
+    /**
+        @notice returns count of bounties
+     */
+    function getCount()
+        public
+        view
+        returns(uint)
+    {
+        return bountiesCount;
+    }
 }

@@ -206,6 +206,17 @@ contract BountyNest is Admin, CircuitBreaker, SimpleBank
     }
 
     /**
+        @notice get bounties count    
+     */
+    function bountiesCount()
+        public
+        view
+        returns(uint)
+    {
+        return bnStorage.getCount();
+    }
+
+    /**
         Debutes to be coded later. It's the reason why admin contract is coded so that admins only
         can resolve debutes
      */

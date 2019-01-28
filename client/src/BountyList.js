@@ -11,7 +11,7 @@ class BountyList extends Component {
                             <span>{ bounty.desc }</span> 
                         </div>
                         <div className="bounty-reward">
-                            <span className={ bounty.state == "1" ? "bounty-open" : "bounty-closed" }>{ bounty.reward }</span>
+                            <span className={ bounty.state === "1" ? "bounty-open" : "bounty-closed" }>{ bounty.reward }</span>
                         </div>                            
                     </div>
                 ))

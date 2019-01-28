@@ -8,7 +8,7 @@ import "./App.css";
 
 class App extends Component {
     eth = { web3: null, accounts: null, contract: null };
-    state = { ready: false, bountyList: [], bountiesCount: 0 };
+    state = { ready: false, loggedAccount: null, bountyList: [], bountiesCount: 0 };
 
     componentDidMount = async () => {
         try {
@@ -29,7 +29,7 @@ class App extends Component {
             // Set web3, accounts, and contract to the state, and then proceed with an
             // example of interacting with the contract's methods.
             this.eth = { web3, accounts, contract: instance };
-            this.setState({ ready: true }, this.readBounties)
+            this.setState({ ready: true, loggedAccount: accounts[0] }, this.readBounties)
         } catch (error) {
             // Catch any errors for any of the above operations.
             alert(
@@ -94,8 +94,8 @@ class App extends Component {
             return <div>Loading Web3, accounts, and contract...</div>;
         }
         return (
-            <Container>
-                <div className="App">
+            <Container>                
+                <div className="App-header">
                     <h1>Bounties Nest</h1>
                 </div>
                 <Row>
@@ -134,28 +134,13 @@ class App extends Component {
                         </fieldset>
                     </Col>                    
                 </Row>
+                <div className="avbar navbar-default navbar-fixed-bottom">
+                    <div className="container account">
+                        <b>Logged: </b>{ this.state.loggedAccount }
+                    </div>
+                </div>
             </Container>
         );
-        // <div className="App">
-        //     <h1>Bounties Nest</h1>
-        //     <div>
-        //         <p>The bounties count is: {this.state.bountiesCount}</p>
-        //     </div>            
-        //     <h3>New Bounty</h3>
-        //     <form className="Submit-New-Bounty">
-
-        //     </form>
-        //     <div className="Submit-New-Bounty">
-        //         <label>Description</label>
-        //         <textarea></textarea> 
-        //         <label>Reward</label>
-        //         <input type="number" />
-        //         <button>Add New Bounty</button>
-        //     </div>
-        //     <h2>Bounties List</h2>
-        //     <BountyList list={ this.state.bountyList }></BountyList>
-        // </div>
-        //);
     }
 }
 
