@@ -91,7 +91,7 @@ contract BountyNestStorage is Owned, CircuitBreaker {
             state: BountyState.Open,
             poster: poster,
             accepted: 0,
-            submissions: new uint[](1)
+            submissions: new uint[](0)
         });        
         myBounties[poster].push(bountyId);        
     }
@@ -144,6 +144,8 @@ contract BountyNestStorage is Owned, CircuitBreaker {
             state: SubmissionState.Pending
         });
         mySubmissions[msg.sender].push(submissionId);
+        // uint[] memory _submissions = bountyList[bountyId].submissions;
+        // if(_submissions)
         bountyList[bountyId].submissions.push(submissionId);       
     }
 
