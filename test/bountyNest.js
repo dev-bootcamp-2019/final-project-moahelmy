@@ -1,4 +1,5 @@
 var BountyNest = artifacts.require("BountyNest.sol");
+var BountyNestStorage = artifacts.require("BountyNestStorage.sol");
 var assertThrow = require("./assertExceptions");
 
 /**
@@ -23,12 +24,12 @@ contract('BountyNest', function (accounts) {
     });
 
     it('should add new bounty', async () => {
-        const bountyNest = await BountyNest.deployed();
+        const bountyNest = await BountyNest.deployed();        
 
-        var eventEmitted = false;        
+        var eventEmitted = false;
         // add bounty
-        let loggedBountyId;
-        var result = await bountyNest.add("to be resovled", 120, { from: jobPoster, value: 120 });
+        let loggedBountyId;        
+        var result = await bountyNest.add("to be resovled", 120, { from: jobPoster, value: 150 });        
         let openedEvent;
         // check for event
         if(result && result.logs)
@@ -60,7 +61,7 @@ contract('BountyNest', function (accounts) {
         result = await bountyNest.balance({ from: bountyNest.address });        
         contractBalance = result.toNumber();
     });
-    
+
     it('should revert adding new bounty with zero reward or value not equal reward', async () => {
         const bountyNest = await BountyNest.deployed();
                 

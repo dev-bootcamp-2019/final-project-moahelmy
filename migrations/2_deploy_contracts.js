@@ -8,6 +8,8 @@ module.exports = function(deployer) {
     deployer.deploy(Owned);
     deployer.deploy(Admin);
     deployer.deploy(SimpleBank);
-    deployer.deploy(BountyNest);
-    deployer.deploy(BountyNestStorage);
+    deployer.deploy(BountyNestStorage).then(function (){       
+        console.log(BountyNestStorage.address);
+        return deployer.deploy(BountyNest, BountyNestStorage.address);
+    });    
 };

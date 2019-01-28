@@ -26,4 +26,4 @@ Only owner can stop the contract or resume it.
 
 ## Upgradable Relay Pattern
 
-I implemented the Relay pattern to allow upgrade. At the moment, the work is incomplete as the storeage need to be external rather than inherited.
+I implemented the Relay pattern to allow upgrade. BountyNestStorage is used as external storage so that data migration won't be a problem.

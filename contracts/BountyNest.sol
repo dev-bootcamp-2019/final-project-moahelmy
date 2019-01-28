@@ -8,12 +8,14 @@ import "./BountyNestStorage.sol";
     @author moahelmy
     @title manage bounties contract
  */
-contract BountyNest is Admin, CircuitBreaker, SimpleBank, BountyNestStorage
+contract BountyNest is Admin, CircuitBreaker, SimpleBank
 {
+    BountyNestStorage private bnStorage;
+
     /**
         Events to track amendement of bounties states
      */    
-    event Opened(uint indexed bountyId);    
+    event Opened(uint indexed bountyId);
     event Closed(uint indexed bountyId);
     event Resolved(uint indexed bountyId);
 
@@ -29,7 +31,7 @@ contract BountyNest is Admin, CircuitBreaker, SimpleBank, BountyNestStorage
      */
     modifier onlyPoster(uint bountyId)
     {
-        require(bountyList[bountyId].poster == msg.sender, "not poster");
+        require(getPoster(bountyId) == msg.sender, "not poster");
         _;
     }
     /**
@@ -38,37 +40,21 @@ contract BountyNest is Admin, CircuitBreaker, SimpleBank, BountyNestStorage
     modifier paidEnough(uint _reward) {
         require(msg.value >= _reward, "not enough"); 
         _;
-    }
-    /**
-        modifier to check if bounty exists
-     */
-    modifier bountyExists(uint bountyId)
-    {
-        require(bountyList[bountyId].id == bountyId, "not exists");
-        _;
-    }
+    }    
     /**
         modifier to confirms if bounty still open
      */
     modifier opened(uint bountyId)
     {
-        require(bountyList[bountyId].state == BountyState.Open, "bounty is not open");
+        require(isOpen(bountyId), "bounty is not open");
         _;
-    }
-    /**
-        modifier to check if submission exists
-     */
-    modifier submissionExists(uint id)
-    {
-        require(submissions[id].id == id, "not exists");
-        _;
-    }
+    }    
     /**
         modifer to confirm that submission still open
      */
     modifier pending(uint submissionId)
     {
-        require(submissions[submissionId].state == SubmissionState.Pending, "submission is not pending");
+        require(isPending(submissionId), "submission is not pending");
         _;
     }
 
@@ -81,11 +67,9 @@ contract BountyNest is Admin, CircuitBreaker, SimpleBank, BountyNestStorage
         _;
     }    
 
-    constructor() public
+    constructor (address _externalStorage) public
     {
-        bountiesCount = 0;
-        submissionsCount = 0;
-        
+        bnStorage = BountyNestStorage(_externalStorage);
         // enroll contract itself into the simple bank to hold deposit sent by job posters
         enroll(address(this));
     }
@@ -105,17 +89,7 @@ contract BountyNest is Admin, CircuitBreaker, SimpleBank, BountyNestStorage
         returns(uint bountyId)
     {
         require(_reward > 0, "reward can not be zero");
-        bountyId = ++bountiesCount;
-        bountyList[bountyId] = Bounty({
-            id: bountyId,
-            description: _description,
-            reward: _reward,
-            state: BountyState.Open,
-            poster: msg.sender,
-            accepted: 0,
-            submissions: new uint[](1)
-        });        
-        myBounties[msg.sender].push(bountyId);
+        bountyId = bnStorage.addBounty(msg.sender, _description, _reward);
         emit Opened(bountyId);
         enroll(msg.sender);
         deposit();
@@ -131,10 +105,11 @@ contract BountyNest is Admin, CircuitBreaker, SimpleBank, BountyNestStorage
         onlyPoster(bountyId)
         opened(bountyId)
         returns(bool)
-    {   
-        bountyList[bountyId].state = BountyState.Closed;        
+    {
+        bnStorage.closeBounty(bountyId);             
         emit Closed(bountyId);
-        transfer(address(this), bountyList[bountyId].poster, bountyList[bountyId].reward);
+        (,uint reward,address poster,,) = bnStorage.fetchBounty(bountyId);
+        transfer(address(this), poster, reward);
         return true;
     }
 
@@ -151,16 +126,7 @@ contract BountyNest is Admin, CircuitBreaker, SimpleBank, BountyNestStorage
         opened(bountyId)
         returns(uint submissionId)
     {
-        submissionId = ++submissionsCount;
-        submissions[submissionId] = Submission({
-            id: submissionId,
-            bountyId: bountyId,
-            resolution: resolution,
-            submitter: msg.sender,
-            state: SubmissionState.Pending
-        });
-        mySubmissions[msg.sender].push(submissionId);
-        bountyList[bountyId].submissions.push(submissionId);
+        submissionId = bnStorage.addSubmission(bountyId, resolution);
         emit SubmissionAdded(bountyId, submissionId);
     }
 
@@ -171,19 +137,19 @@ contract BountyNest is Admin, CircuitBreaker, SimpleBank, BountyNestStorage
      */
     function accept(uint submissionId)
         public
-        stopInEmergency()
-        submissionExists(submissionId)
-        pending(submissionId)
-        onlyPoster(submissions[submissionId].bountyId)
-        opened(submissions[submissionId].bountyId)
+        stopInEmergency()        
+        pending(submissionId)        
     {
-        submissions[submissionId].state = SubmissionState.Accepted;
-        Bounty storage bounty = bountyList[submissions[submissionId].bountyId];
-        bounty.accepted = submissionId;
-        bounty.state = BountyState.Resolved;
-        enroll(submissions[submissionId].submitter);
-        transfer(address(this), submissions[submissionId].submitter, bounty.reward);
-        emit SubmissionAccepted(submissionId, submissions[submissionId].bountyId);
+        (uint bountyId,,address submitter,) = bnStorage.fetchSubmission(submissionId);
+        (,uint reward,address poster,,) = bnStorage.fetchBounty(bountyId);
+        require(isOpen(bountyId));
+        require(poster == msg.sender);
+        bnStorage.markAsResolved(bountyId);
+        bnStorage.setAcceptedSubmission(bountyId, submissionId);
+        bnStorage.markAsAccepted(submissionId);        
+        enroll(submitter);
+        transfer(address(this), submitter, reward);
+        emit SubmissionAccepted(submissionId, bountyId);
     }
 
     /**
@@ -192,24 +158,15 @@ contract BountyNest is Admin, CircuitBreaker, SimpleBank, BountyNestStorage
         @param submissionId id of submission to be rejected
      */
     function reject(uint submissionId)
-        public        
-    {
-        canAcceptOrReject(submissionId);
-        submissions[submissionId].state = SubmissionState.Rejected;
-        emit SubmissionRejected(submissionId, submissions[submissionId].bountyId);
-    }
-
-    /**
-        common criteria for accepting or rejecting submission
-     */
-    function canAcceptOrReject(uint submissionId)
-        internal
-        view        
-        submissionExists(submissionId)
+        public
         pending(submissionId)
-        onlyPoster(submissions[submissionId].bountyId)
-        opened(submissions[submissionId].bountyId)
     {
+        (uint bountyId,,,) = bnStorage.fetchSubmission(submissionId);
+        (,,address poster,,) = bnStorage.fetchBounty(bountyId);
+        require(isOpen(bountyId));
+        require(poster == msg.sender);                
+        bnStorage.markAsRejected(submissionId);                
+        emit SubmissionRejected(submissionId, bountyId);
     }
 
     /**
@@ -221,7 +178,7 @@ contract BountyNest is Admin, CircuitBreaker, SimpleBank, BountyNestStorage
         validSender()
         returns(uint[] memory bounties)
     {
-        return myBounties[msg.sender];
+        return bnStorage.listMyBounties(msg.sender);
     }
 
     /**
@@ -233,7 +190,7 @@ contract BountyNest is Admin, CircuitBreaker, SimpleBank, BountyNestStorage
         validSender()        
         returns(uint[] memory bounties)
     {
-        return mySubmissions[msg.sender];
+        return bnStorage.listMySubmissions(msg.sender);
     }
 
     /**
@@ -245,26 +202,7 @@ contract BountyNest is Admin, CircuitBreaker, SimpleBank, BountyNestStorage
         view
         returns(string memory desc, uint reward, address poster, uint state, uint[] memory _submissions)
     {
-        Bounty memory bounty = bountyList[bountyId];
-        if(bountyId == bounty.id)
-        {
-            desc = bounty.description;
-            reward = bounty.reward;
-            poster = bounty.poster;
-            if(bounty.state == BountyState.Open)
-            {
-                state = 1;
-            }
-            if(bounty.state == BountyState.Closed)
-            {
-                state = 2;
-            }
-            if(bounty.state == BountyState.Resolved)
-            {
-                state = 3;
-            }
-            _submissions = bounty.submissions;
-        }     
+        return bnStorage.fetchBounty(bountyId);
     }
 
     /**
@@ -291,6 +229,14 @@ contract BountyNest is Admin, CircuitBreaker, SimpleBank, BountyNestStorage
         return false;
     }
 
+    function getPoster(uint bountyId) 
+        internal
+        view
+        returns(address) {
+        (,,address poster,,) = bnStorage.fetchBounty(bountyId);
+        return poster;
+    }
+
     /**
         these functions to check status of bounty and submission. used more by tests
         they will be deleted in the future
@@ -298,55 +244,55 @@ contract BountyNest is Admin, CircuitBreaker, SimpleBank, BountyNestStorage
      */
     function isOpen(uint bountyId)
         public
-        view
-        bountyExists(bountyId)
+        view        
         returns(bool)
     {
-        return bountyList[bountyId].state == BountyState.Open;
+        (,,,uint state,) = bnStorage.fetchBounty(bountyId);
+        return state == 1;
     }
 
     function isClosed(uint bountyId)
         public
-        view
-        bountyExists(bountyId)
+        view 
         returns(bool)
     {
-        return bountyList[bountyId].state == BountyState.Closed;
+        (,,,uint state,) = bnStorage.fetchBounty(bountyId);
+        return state == 2;
     }
 
     function isResolved(uint bountyId)
         public
-        view
-        bountyExists(bountyId)
+        view        
         returns(bool)
     {
-        return bountyList[bountyId].state == BountyState.Resolved;
+        (,,,uint state,) = bnStorage.fetchBounty(bountyId);
+        return state == 3;
     }
 
     function isPending(uint submissionId)
         public
-        view
-        submissionExists(submissionId)
+        view        
         returns(bool)
     {
-        return submissions[submissionId].state == SubmissionState.Pending;
+        (,,,uint state) = bnStorage.fetchSubmission(submissionId);
+        return state == 1;
     }
 
     function isAccepted(uint submissionId)
         public
-        view
-        submissionExists(submissionId)
+        view        
         returns(bool)
     {
-        return submissions[submissionId].state == SubmissionState.Accepted;
+        (,,,uint state) = bnStorage.fetchSubmission(submissionId);
+        return state == 2;
     }
 
     function isRejected(uint submissionId)
         public
-        view
-        submissionExists(submissionId)
+        view        
         returns(bool)
     {
-        return submissions[submissionId].state == SubmissionState.Rejected;
-    }    
+        (,,,uint state) = bnStorage.fetchSubmission(submissionId);
+        return state == 3;
+    }
 }
