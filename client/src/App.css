@@ -83,6 +83,11 @@ fieldset {
   display: none;
 }
 
+.empty-row {
+  height: 23px;
+}
+
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

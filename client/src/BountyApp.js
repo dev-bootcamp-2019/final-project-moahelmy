@@ -83,8 +83,7 @@ class App extends Component {
     addNew = async (desc, reward) => {
         try {
             const { contract } = this.eth;
-            const { accounts, bountiesCount: count } = this.state;
-            debugger;
+            const { accounts, bountiesCount: count } = this.state;            
             await contract.methods.add(desc, reward).send({ from: accounts[0], value: reward + 10, gas: 1000000, gasLimit: 1000000 });            
             this.setState({ bountiesCount: count + 1 }, this.readBounties);
         } 
@@ -120,19 +119,16 @@ class App extends Component {
     }
 
     addSubmission = async (desc) => {
-        try {
+        try {            
             const { contract } = this.eth;
             const { selected, accounts } = this.state;
             const response = await contract.methods.submit(selected.id, desc).send({ from: accounts[0], gas: 1000000, gasLimit: 1000000 });
-            console.log(response);
-            debugger;
-            if(response.state) {
-                const id = response.events.SubmissionAdded.returnValues.submissionId;
-                selected.submissions.push(id);
-                const submission = await contract.methods.fetchSubmission(id).call();
-                submission.id = id;
-                selected.submissionsList.push(submission);
-            }
+            console.log(response);            
+            const id = response.events.SubmissionAdded.returnValues.submissionId;
+            selected.submissions.push(id);
+            const submission = await contract.methods.fetchSubmission(id).call();
+            submission.id = id;
+            selected.submissionsList.push(submission);            
             this.setState({ selected: selected });
         } 
         catch(error) {
@@ -141,6 +137,38 @@ class App extends Component {
             console.error(error);
         }
     }
+
+    accept = async (index) => {
+        try {            
+            const { contract } = this.eth;
+            const { selected, accounts } = this.state;
+            const response = await contract.methods.accept(selected.submissions[index]).send({ from: accounts[0], gas: 1000000, gasLimit: 1000000 });
+            console.log(response);
+            selected.submissionsList[index].state = 2;
+            this.setState({ selected: selected });
+        } 
+        catch(error) {
+            // Catch any errors for any of the above operations.
+            this.setState({ error: `Failed to accept submission.`})
+            console.error(error);
+        }
+    };
+
+    reject = async (index) => {
+        try {
+            const { contract } = this.eth;
+            const { selected, accounts } = this.state;
+            const response = await contract.methods.reject(selected.submissions[index]).send({ from: accounts[0], gas: 1000000, gasLimit: 1000000 });            
+            console.log(response);
+            selected.submissionsList[index].state = 3;
+            this.setState({ selected: selected });
+        } 
+        catch(error) {
+            // Catch any errors for any of the above operations.
+            this.setState({ error: `Failed to accept submission.`})
+            console.error(error);
+        }
+    };
 
     render() {
         if (!this.state.ready) {
@@ -173,6 +201,8 @@ class App extends Component {
                                     <Bounty bounty={this.state.selected} 
                                             isPoster={this.state.selected.poster === this.state.accounts[0]}
                                             onSubmissionAdd={desc => this.addSubmission(desc)}
+                                            onAccept={i => this.accept(i)}
+                                            onReject={i => this.reject(i)}
                                             onClose={() => this.setState({selected: null }) }>
                                     </Bounty>
                                 </fieldset>

@@ -9,9 +9,16 @@ class Bounty extends Component {
         this.setState({ resolution: e.target.value })
     };
 
+    handleAccept = (index) => {
+        this.props.onAccept(index);
+    };
+
+    handleReject = (index) => {
+        this.props.onReject(index);
+    };
+
     handleSubmit = e => {
-        e.preventDefault();
-        
+                
         if (!this.state.resolution) {
             this.setState({ error: 'Please type description' })
             return;
@@ -39,17 +46,18 @@ class Bounty extends Component {
                     </Col>
                 </Row>
                 {
-                    this.props.bounty.submissionsList.map(x => (
+                    this.props.bounty.submissionsList.map((x, index) => (
                         <Container key={ x.id }>
                             <Row>
                                 <Col>                                
                                     <p>{ x.resolution }</p>
+                                    <p>({ x.state == 1 ? "Pending" : (x.state == 2 ? "Accepted" : "Rejected") })</p>
                                 </Col>
                             </Row>
                             <Row className={this.props.isPoster ? "show" : "hide"}>
                                 <Col>
-                                    <Button color="primary">Accept</Button>
-                                    <Button color="danger">Reject</Button>
+                                    <Button color="primary" onClick={() => this.handleAccept(index)}>Accept</Button>{'  '}
+                                    <Button color="danger" onClick={() => this.handleReject(index)}>Reject</Button>
                                 </Col>
                             </Row>
                         </Container>
@@ -57,7 +65,7 @@ class Bounty extends Component {
                 }
                 {
                     this.props.bounty.state != 1 ? null : (
-                        <Form onSubmit={this.handleSubmit}>
+                        <Form>
                         <fieldset>
                             <legend>New Submission</legend>
                             <Container>
@@ -78,7 +86,7 @@ class Bounty extends Component {
                                 </Row>
                                 <Row>
                                     <Col>
-                                        <Button size="lg">Add</Button>
+                                        <Button onClick={() => this.handleSubmit()} size="lg">Add</Button>
                                     </Col>
                                 </Row>
                             </Container>
@@ -86,6 +94,9 @@ class Bounty extends Component {
                     </Form>
                     )
                 }
+                <Row className="empty-row">
+                    <Col></Col>
+                </Row>
                 <Row>
                     <Col>
                         <Button onClick={() => this.props.onClose() }>Back</Button>
