@@ -10,24 +10,17 @@ Starting migrations...
 
    Deploying 'Migrations'
    ----------------------
-   > contract address:    0xB09E71e58151001ff56ACEf276791e2C3b7752E5   
+   > contract address:    0xCec6a57e6eE6459838c66689789b85569437ec3c
 
 2_deploy_contracts.js
 =====================
 
-   Deploying 'Owned'
-   -----------------
-   > contract address:    0xdC58266efe90A1A520CAe49aE3Dad4446b0d582D   
+   Deploying 'BountyNestStorage'
+   -----------------------------
+   > contract address:    0x16537863fEFea5A56B563075c8db804F4A043c7f   
 
-   Deploying 'Admin'
-   -----------------
-   > contract address:    0x81fFF6ddF60f09695B71585BB0AFB03f7eCF8D32   
+0x16537863fEFea5A56B563075c8db804F4A043c7f
 
-   Deploying 'SimpleBank'
+   Replacing 'BountyNest'
    ----------------------
-   > contract address:    0x456B3b67Cdb5ff94Ea3CE71801fCD236d49CA787   
-
-
-   Deploying 'BountyNest'
-   ----------------------
-   > contract address:    0xff8a92b973E27042cd0B64ccA3Cc1b24885E699B
+   > contract address:    0xacd71Dc8fd50E8A2aB38Cf0E23A68405401c519e
