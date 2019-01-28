@@ -93,7 +93,7 @@ contract BountyNest is Admin, CircuitBreaker, SimpleBank
         emit Opened(bountyId);
         enroll(msg.sender);
         deposit();
-        transfer(msg.sender, address(this), msg.value);        
+        transfer(msg.sender, address(this), _reward);        
     }
 
     /**
@@ -200,9 +200,21 @@ contract BountyNest is Admin, CircuitBreaker, SimpleBank
     function fetchBounty(uint bountyId)
         public
         view
-        returns(string memory desc, uint reward, address poster, uint state, uint[] memory _submissions)
+        returns(string memory desc, uint reward, address poster, uint state, uint[] memory submissions)
     {
         return bnStorage.fetchBounty(bountyId);
+    }
+
+    /**
+        @notice fetch submission information
+        @param submissionId id of submission
+     */
+    function fetchSubmission(uint submissionId)
+        public
+        view        
+        returns(uint bountyId, string memory resolution, address submitter, uint state)
+    {
+        return bnStorage.fetchSubmission(submissionId);        
     }
 
     /**
@@ -249,7 +261,7 @@ contract BountyNest is Admin, CircuitBreaker, SimpleBank
     }
 
     /**
-        these functions to check status of bounty and submission. used more by tests
+        These functions to check status of bounty and submission. used more by tests
         they will be deleted in the future
         no need to expose internal state
      */

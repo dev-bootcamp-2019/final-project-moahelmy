@@ -88,10 +88,11 @@ contract SimpleBank {
     {
         require(enrolled[from], "from not enrolled");
         require(enrolled[to], "to not enrolled");
-        uint fromNewBalance = amount - balances[from];
+        uint fromNewBalance = balances[from] - amount;
         require(fromNewBalance >= 0, "insufficient balance");
         uint toNewBalance = amount + balances[to];
         require(toNewBalance > 0, "integer overflow");        
+        balances[from] = fromNewBalance;
         balances[to] = toNewBalance;
         emit LogTransferDone(from, to, amount, fromNewBalance, toNewBalance);        
     }

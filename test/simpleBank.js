@@ -60,8 +60,10 @@ contract('SimpleBank', function(accounts) {
     const balance = await bank.balance({from: bob});
     result = await bank.transfer(peter, bob, transferAmount, { from: peter });
 
-    const bobNewBalance = await bank.balance({from: bob});
+    const peterNewBalance = await bank.balance({from: peter});    
+    assert.equal(peterNewBalance.toNumber(), 0, "transfer is incorrect");
     
+    const bobNewBalance = await bank.balance({from: bob});    
     assert.equal(bobNewBalance.toNumber(), balance.toNumber() + transferAmount, "transfer is incorrect");
   });
 

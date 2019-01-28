@@ -144,8 +144,6 @@ contract BountyNestStorage is Owned, CircuitBreaker {
             state: SubmissionState.Pending
         });
         mySubmissions[msg.sender].push(submissionId);
-        // uint[] memory _submissions = bountyList[bountyId].submissions;
-        // if(_submissions)
         bountyList[bountyId].submissions.push(submissionId);       
     }
 
